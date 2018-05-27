@@ -9,7 +9,8 @@
     "test:unit": "mocha --require intelli-espower-loader"
   },
   "dependencies": {
-    "eslint": "^5.0.0-alpha.3"
+    "eslint": "^5.0.0-alpha.3",
+    "object.entries": "^1.0.4"
   },
   "devDependencies": {
     "eslint-config-teppeis": "^7.0.0-beta.9",
