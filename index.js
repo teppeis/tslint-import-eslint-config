@@ -4,6 +4,8 @@ const {Linter} = require('eslint');
 const Config = require('eslint/lib/config');
 const {loadObject} = require('eslint/lib/config/config-file');
 const oEntries = require('object.entries');
+const {ruleESMap} = require('tslint-eslint-rules/dist/readme/rules');
+const camelcase = require('camelcase');
 
 function importESLintConfig(config) {
   const {rules = {}} = loadESLintConfig(config);
@@ -54,12 +56,13 @@ function convertESLintRule([name, value]) {
     throw new Error(`invalid rule setting: ${name}, ${value}`);
   }
 
-  return [es2ts[name], {severity: value}];
-}
+  const rule = ruleESMap[camelcase(name)];
+  if (!rule || rule.provider !== 'native') {
+    return [null, null];
+  }
 
-const es2ts = {
-  'no-cond-assign': 'no-conditional-assignment',
-};
+  return [rule.tslintRule, {severity: value}];
+}
 
 module.exports = importESLintConfig;
 module.exports.convertESLintRulesToTSLintConfig = convertESLintRulesToTSLintConfig;
