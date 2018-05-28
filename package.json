@@ -31,6 +31,9 @@
   "homepage": "https://github.com/teppeis/tslint-import-eslint-config",
   "repository": "teppeis/tslint-import-eslint-config",
   "bugs": "https://github.com/teppeis/tslint-import-eslint-config/issues",
-  "keywords": [],
+  "keywords": [
+    "eslint",
+    "tslint"
+  ],
   "license": "MIT"
 }
