@@ -7,7 +7,7 @@ tslint-import-eslint-config
 $ npm i tslint-import-eslint-config
 ```
 
-edit `tsconfig.js`
+edit `tslint.js`
 
 ```js
 const importESLintConfig = require('tslint-import-eslint-config');
