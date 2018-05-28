@@ -1,5 +1,6 @@
 {
   "name": "tslint-import-eslint-config",
+  "description": "Import your ESLint config into TSLint",
   "version": "1.0.0",
   "author": "Teppei Sato <teppeis@gmail.com>",
   "main": "index.js",
@@ -27,6 +28,9 @@
     "power-assert": "^1.5.0",
     "prettier": "1.12.1"
   },
+  "homepage": "https://github.com/teppeis/tslint-import-eslint-config",
+  "repository": "teppeis/tslint-import-eslint-config",
+  "bugs": "https://github.com/teppeis/tslint-import-eslint-config/issues",
   "keywords": [],
   "license": "MIT"
 }
