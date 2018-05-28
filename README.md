@@ -9,6 +9,8 @@ Import your ESLint config into TSLint.
 [![Dependency Status][deps-image]][deps-url]
 ![License][license]
 
+The rule mappings between ESLint and TSLint are provided by [tslint-eslint-rules](https://github.com/buzinas/tslint-eslint-rules). Thanks!
+
 ## Setup
 
 ```console
