@@ -35,7 +35,7 @@ Object.assign(module.exports.rules, {
 });
 ```
 
-Run TSLint
+Run with TSLint
 
 ```console
 $ tslint -c tslint.js *.ts
