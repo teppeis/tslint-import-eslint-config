@@ -1,5 +1,7 @@
 'use strict';
 
+const deepEqual = require('deep-strict-equal');
+
 const rules = {};
 module.exports = rules;
 
@@ -12,3 +14,56 @@ module.exports = rules;
  * @see https://palantir.github.io/tslint/rules/no-duplicate-variable/
  */
 rules['no-redeclare'] = () => 'check-parameters';
+
+/**
+ * TODO: `allow-new` is mapped from `no-new`
+ *
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-unused-expressions
+ * @see https://palantir.github.io/tslint/rules/no-unused-expression/
+ */
+rules['no-unused-expressions'] = options => {
+  const opt = options[0];
+  const result = [];
+  if (!opt) {
+    return result;
+  }
+  if (opt.allowShortCircuit || opt.allowTernary) {
+    result.push('allow-fast-null-checks');
+  }
+  if (opt.allowTaggedTemplates) {
+    result.push('allow-tagged-template');
+  }
+  return result;
+};
+
+/**
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/eqeqeq
+ * @see https://palantir.github.io/tslint/rules/triple-equals/
+ */
+rules.eqeqeq = options => {
+  const result = [];
+  if (options.length === 0) {
+    return [];
+  }
+
+  if (options.length === 1) {
+    if (options[0] === 'always') {
+      return [];
+    } else if (options[0] === 'smart') {
+      result.push('allow-null-check');
+    }
+    return result;
+  }
+
+  if (
+    deepEqual(options, ['always', {null: 'ignore'}]) ||
+    deepEqual(options, ['always', {null: 'never'}])
+  ) {
+    result.push('allow-null-check');
+  }
+  return result;
+};
