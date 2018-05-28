@@ -17,6 +17,7 @@ describe('convertESLintRulesToTSLintConfig', () => {
   it('should be a function', () => {
     assert(typeof convert === 'function');
   });
+
   describe('should convert a ESLint rule to the equivalent TSLint rule', () => {
     it('error', () => {
       const actual = convert({'no-cond-assign': 'error'});
@@ -39,6 +40,7 @@ describe('convertESLintRulesToTSLintConfig', () => {
       assert.deepEqual(actual, {rules: {'no-conditional-assignment': {severity: 'error'}}});
     });
   });
+
   describe('should filter disabled ESLint rules', () => {
     it('off', () => {
       const actual = convert({'no-cond-assign': 'off'});
@@ -49,8 +51,20 @@ describe('convertESLintRulesToTSLintConfig', () => {
       assert.deepEqual(actual, {rules: {}});
     });
   });
+
   it('should filter a ESLint rule if it has no equivalent TSLint rule', () => {
     const actual = convert({'foo-bar-baz': 'error'});
     assert.deepEqual(actual, {rules: {}});
+  });
+
+  describe('rules', () => {
+    it('no-redeclare', () => {
+      const actual = convert({'no-redeclare': 'error'});
+      assert.deepEqual(actual, {
+        rules: {
+          'no-duplicate-variable': {severity: 'error', options: 'check-parameters'},
+        },
+      });
+    });
   });
 });

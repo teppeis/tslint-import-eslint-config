@@ -6,6 +6,7 @@ const {loadObject} = require('eslint/lib/config/config-file');
 const oEntries = require('object.entries');
 const {ruleESMap} = require('tslint-eslint-rules/dist/readme/rules');
 const camelcase = require('camelcase');
+const rules = require('./rules');
 
 function importESLintConfig(config) {
   const {rules = {}} = loadESLintConfig(config);
@@ -41,27 +42,34 @@ function convertESLintRulesToTSLintConfig(rules) {
 }
 
 function convertESLintRule([name, value]) {
+  let severity = value;
+  let options = [];
   if (Array.isArray(value)) {
-    // TODO: extract options
-    value = value[0];
+    [severity, ...options] = value;
   }
 
-  if (value === 'off' || value === 0) {
+  if (severity === 'off' || severity === 0) {
     return [null, null];
-  } else if (value === 'warn' || value === 1) {
-    value = 'warning';
-  } else if (value === 'error' || value === 2) {
-    value = 'error';
+  } else if (severity === 'warn' || severity === 1) {
+    severity = 'warning';
+  } else if (severity === 'error' || severity === 2) {
+    severity = 'error';
   } else {
     throw new Error(`invalid rule setting: ${name}, ${value}`);
   }
 
-  const rule = ruleESMap[camelcase(name)];
-  if (!rule || rule.provider !== 'native') {
+  const ruleInfo = ruleESMap[camelcase(name)];
+  if (!ruleInfo || ruleInfo.provider !== 'native') {
     return [null, null];
   }
 
-  return [rule.tslintRule, {severity: value}];
+  const setting = {severity};
+  const rule = rules[name];
+  if (rule) {
+    setting.options = rule(options);
+  }
+
+  return [ruleInfo.tslintRule, setting];
 }
 
 module.exports = importESLintConfig;
