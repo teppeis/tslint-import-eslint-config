@@ -47,18 +47,18 @@ describe('convertESLintRulesToTSLintConfig', () => {
 
   describe('should support tslint-eslint-rules', () => {
     it('should add "extends: tslint-eslint-rules"', () => {
-      const actual = convert({'no-constant-condition': 'error'});
+      const actual = convert({'no-duplicate-case': 'error'});
       assert.deepEqual(actual, {
         extends: ['tslint-eslint-rules'],
-        rules: {'no-constant-condition': {severity: 'error'}},
+        rules: {'no-duplicate-case': {severity: 'error'}},
       });
     });
     it('should not duplicate "extends: tslint-eslint-rules"', () => {
-      const actual = convert({'no-constant-condition': 'error', 'no-control-regex': 'error'});
+      const actual = convert({'no-duplicate-case': 'error', 'no-control-regex': 'error'});
       assert.deepEqual(actual, {
         extends: ['tslint-eslint-rules'],
         rules: {
-          'no-constant-condition': {severity: 'error'},
+          'no-duplicate-case': {severity: 'error'},
           'no-control-regex': {severity: 'error'},
         },
       });
