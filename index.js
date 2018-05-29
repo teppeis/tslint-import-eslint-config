@@ -6,7 +6,7 @@ const {loadObject} = require('eslint/lib/config/config-file');
 const oEntries = require('object.entries');
 const {ruleESMap} = require('tslint-eslint-rules/dist/readme/rules');
 const camelcase = require('camelcase');
-const rules = require('./rules');
+const convertOptions = require('./rules');
 
 function importESLintConfig(config) {
   const {rules = {}} = loadESLintConfig(config);
@@ -77,9 +77,9 @@ function convertESLintRule(plugins, [name, value]) {
   }
 
   const setting = {severity};
-  const rule = rules[name];
-  if (rule) {
-    setting.options = rule(options);
+  const newOptions = convertOptions(name, options, ruleInfo);
+  if (newOptions && newOptions.length > 0) {
+    setting.options = newOptions;
   }
 
   return [ruleInfo.tslintRule, setting];

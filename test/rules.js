@@ -23,7 +23,6 @@ describe('rules', () => {
         rules: {
           'no-unused-expression': {
             severity: 'error',
-            options: [],
           },
         },
       });
@@ -66,7 +65,7 @@ describe('rules', () => {
   describe('eqeqeq', () => {
     it('no option', () => {
       const actual = convert({eqeqeq: 'error'});
-      assert.deepEqual(actual, {rules: {'triple-equals': {severity: 'error', options: []}}});
+      assert.deepEqual(actual, {rules: {'triple-equals': {severity: 'error'}}});
     });
     it('always, {null: "ignore"}', () => {
       const actual = convert({eqeqeq: ['error', 'always', {null: 'ignore'}]});
@@ -92,7 +91,7 @@ describe('rules', () => {
     it('no option', () => {
       const actual = convert({'no-unused-vars': 'error'});
       assert.deepEqual(actual, {
-        rules: {'no-unused-variable': {severity: 'error', options: []}},
+        rules: {'no-unused-variable': {severity: 'error'}},
       });
     });
     it('{arg: "all"}', () => {
@@ -129,7 +128,7 @@ describe('rules', () => {
     it('no option', () => {
       const actual = convert({'no-empty': 'error'});
       assert.deepEqual(actual, {
-        rules: {'no-empty': {severity: 'error', options: []}},
+        rules: {'no-empty': {severity: 'error'}},
       });
     });
     it('allowEmptyCatch', () => {
@@ -145,7 +144,7 @@ describe('rules', () => {
       const actual = convert({'no-constant-condition': 'error'});
       assert.deepEqual(actual, {
         extends: ['tslint-eslint-rules'],
-        rules: {'no-constant-condition': {severity: 'error', options: []}},
+        rules: {'no-constant-condition': {severity: 'error'}},
       });
     });
     it('{checkLoops: false}', () => {
