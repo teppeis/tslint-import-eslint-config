@@ -67,6 +67,9 @@ function convertESLintRule(plugins, [name, value]) {
     case 'native':
       break;
     case 'tslint-eslint-rules':
+      if (!ruleInfo.available) {
+        return [null, null];
+      }
       plugins.add('tslint-eslint-rules');
       break;
     default:

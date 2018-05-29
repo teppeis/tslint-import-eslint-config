@@ -63,6 +63,10 @@ describe('convertESLintRulesToTSLintConfig', () => {
         },
       });
     });
+    it('should filter unavailable rules', () => {
+      const actual = convert({yoda: 'error'});
+      assert.deepEqual(actual, {rules: {}});
+    });
   });
 
   it('should filter a ESLint rule if it has no equivalent TSLint rule', () => {
