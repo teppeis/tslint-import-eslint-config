@@ -13,6 +13,9 @@ module.exports = (name, options, ruleInfo) => {
   return null;
 };
 
+const DISABLE = Symbol('DISABLE_RULE');
+module.exports.DISABLE = DISABLE;
+
 const rules = {};
 
 /**
@@ -124,4 +127,23 @@ rules['no-empty'] = options => {
     result.push('allow-empty-catch');
   }
   return result;
+};
+
+/**
+ * @param {!Array<*>} options
+ * @return {string|null}
+ * @see https://eslint.org/docs/rules/object-shorthand
+ * @see https://palantir.github.io/tslint/rules/object-literal-shorthand/
+ */
+rules['object-shorthand'] = options => {
+  if (options.length === 0) {
+    return null;
+  } else if (options.length === 1) {
+    if (options[0] === 'always') {
+      return null;
+    } else if (options[0] === 'never') {
+      return 'never';
+    }
+  }
+  return DISABLE;
 };
