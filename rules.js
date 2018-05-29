@@ -96,3 +96,22 @@ rules['no-unused-vars'] = options => {
   }
   return result;
 };
+
+/**
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-empty
+ * @see https://palantir.github.io/tslint/rules/no-empty/
+ */
+rules['no-empty'] = options => {
+  const result = [];
+  if (!options[0]) {
+    return result;
+  }
+
+  const {allowEmptyCatch} = options[0];
+  if (allowEmptyCatch) {
+    result.push('allow-empty-catch');
+  }
+  return result;
+};
