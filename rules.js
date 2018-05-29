@@ -67,3 +67,32 @@ rules.eqeqeq = options => {
   }
   return result;
 };
+
+/**
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-unused-vars
+ * @see https://palantir.github.io/tslint/rules/no-unused-variable/
+ */
+rules['no-unused-vars'] = options => {
+  const result = [];
+  const ignorePatterns = [];
+  if (!options[0]) {
+    return result;
+  }
+
+  const {arg, varsIgnorePattern, argsIgnorePattern} = options[0];
+  if (arg === 'all') {
+    result.push('check-parameters');
+  }
+  if (varsIgnorePattern) {
+    ignorePatterns.push(varsIgnorePattern);
+  }
+  if (argsIgnorePattern) {
+    ignorePatterns.push(argsIgnorePattern);
+  }
+  if (ignorePatterns.length > 0) {
+    result.push({'ignore-pattern': ignorePatterns.join('|')});
+  }
+  return result;
+};

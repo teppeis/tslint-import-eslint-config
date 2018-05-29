@@ -87,4 +87,41 @@ describe('rules', () => {
       });
     });
   });
+
+  describe('no-unused-vars', () => {
+    it('no option', () => {
+      const actual = convert({'no-unused-vars': 'error'});
+      assert.deepEqual(actual, {
+        rules: {'no-unused-variable': {severity: 'error', options: []}},
+      });
+    });
+    it('{arg: "all"}', () => {
+      const actual = convert({'no-unused-vars': ['error', {arg: 'all'}]});
+      assert.deepEqual(actual, {
+        rules: {'no-unused-variable': {severity: 'error', options: ['check-parameters']}},
+      });
+    });
+    it('varsIgnorePattern', () => {
+      const actual = convert({'no-unused-vars': ['error', {varsIgnorePattern: '^_v'}]});
+      assert.deepEqual(actual, {
+        rules: {'no-unused-variable': {severity: 'error', options: [{'ignore-pattern': '^_v'}]}},
+      });
+    });
+    it('argsIgnorePattern', () => {
+      const actual = convert({'no-unused-vars': ['error', {argsIgnorePattern: '^_a'}]});
+      assert.deepEqual(actual, {
+        rules: {'no-unused-variable': {severity: 'error', options: [{'ignore-pattern': '^_a'}]}},
+      });
+    });
+    it('varsIgnorePattern and argsIgnorePattern', () => {
+      const actual = convert({
+        'no-unused-vars': ['error', {varsIgnorePattern: '^_v', argsIgnorePattern: '^_a'}],
+      });
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-variable': {severity: 'error', options: [{'ignore-pattern': '^_v|^_a'}]},
+        },
+      });
+    });
+  });
 });
