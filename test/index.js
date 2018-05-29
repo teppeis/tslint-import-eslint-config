@@ -5,19 +5,12 @@ const sut = require('../');
 const {convertESLintRulesToTSLintConfig: convert} = sut;
 
 describe('tslint-import-eslint-config', () => {
-  it('should be a function', () => {
-    assert(typeof sut === 'function');
-  });
   it('should return an empty object as `rules` prop for empty config', () => {
     assert.deepEqual(sut({}), {rules: {}});
   });
 });
 
 describe('convertESLintRulesToTSLintConfig', () => {
-  it('should be a function', () => {
-    assert(typeof convert === 'function');
-  });
-
   describe('should convert a ESLint rule to the equivalent TSLint rule', () => {
     it('error', () => {
       const actual = convert({'no-cond-assign': 'error'});
@@ -49,6 +42,26 @@ describe('convertESLintRulesToTSLintConfig', () => {
     it('0', () => {
       const actual = convert({'no-cond-assign': 0});
       assert.deepEqual(actual, {rules: {}});
+    });
+  });
+
+  describe('should support tslint-eslint-rules', () => {
+    it('should add "extends: tslint-eslint-rules"', () => {
+      const actual = convert({'no-constant-condition': 'error'});
+      assert.deepEqual(actual, {
+        extends: ['tslint-eslint-rules'],
+        rules: {'no-constant-condition': {severity: 'error'}},
+      });
+    });
+    it('should not duplicate "extends: tslint-eslint-rules"', () => {
+      const actual = convert({'no-constant-condition': 'error', 'no-control-regex': 'error'});
+      assert.deepEqual(actual, {
+        extends: ['tslint-eslint-rules'],
+        rules: {
+          'no-constant-condition': {severity: 'error'},
+          'no-control-regex': {severity: 'error'},
+        },
+      });
     });
   });
 
