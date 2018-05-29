@@ -155,4 +155,33 @@ describe('rules', () => {
       });
     });
   });
+
+  describe('object-shorthand', () => {
+    it('no option', () => {
+      const actual = convert({'object-shorthand': 'error'});
+      assert.deepEqual(actual, {
+        rules: {'object-literal-shorthand': {severity: 'error'}},
+      });
+    });
+    it('always', () => {
+      const actual = convert({'object-shorthand': ['error', 'always']});
+      assert.deepEqual(actual, {
+        rules: {'object-literal-shorthand': {severity: 'error'}},
+      });
+    });
+    it('never', () => {
+      const actual = convert({'object-shorthand': ['error', 'never']});
+      assert.deepEqual(actual, {
+        rules: {'object-literal-shorthand': {severity: 'error', options: 'never'}},
+      });
+    });
+    it('methods: disabled', () => {
+      const actual = convert({'object-shorthand': ['error', 'methods']});
+      assert.deepEqual(actual, {rules: {}});
+    });
+    it('always, avoidQuotes: disabled', () => {
+      const actual = convert({'object-shorthand': ['error', 'always', {avoidQuotes: true}]});
+      assert.deepEqual(actual, {rules: {}});
+    });
+  });
 });

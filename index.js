@@ -78,7 +78,9 @@ function convertESLintRule(plugins, [name, value]) {
 
   const setting = {severity};
   const newOptions = convertOptions(name, options, ruleInfo);
-  if (newOptions && newOptions.length > 0) {
+  if (newOptions === convertOptions.DISABLE) {
+    return [null, null];
+  } else if (newOptions && (!Array.isArray(newOptions) || newOptions.length > 0)) {
     setting.options = newOptions;
   }
 
