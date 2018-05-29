@@ -124,4 +124,19 @@ describe('rules', () => {
       });
     });
   });
+
+  describe('no-empty', () => {
+    it('no option', () => {
+      const actual = convert({'no-empty': 'error'});
+      assert.deepEqual(actual, {
+        rules: {'no-empty': {severity: 'error', options: []}},
+      });
+    });
+    it('allowEmptyCatch', () => {
+      const actual = convert({'no-empty': ['error', {allowEmptyCatch: true}]});
+      assert.deepEqual(actual, {
+        rules: {'no-empty': {severity: 'error', options: ['allow-empty-catch']}},
+      });
+    });
+  });
 });
