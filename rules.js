@@ -115,3 +115,11 @@ rules['no-empty'] = options => {
   }
   return result;
 };
+
+/**
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-constant-condition
+ * @see https://github.com/buzinas/tslint-eslint-rules/blob/master/src/docs/rules/noConstantConditionRule.md
+ */
+rules['no-constant-condition'] = options => options;
