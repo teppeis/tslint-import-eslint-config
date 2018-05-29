@@ -10,10 +10,7 @@ const rules = require('./rules');
 
 function importESLintConfig(config) {
   const {rules = {}} = loadESLintConfig(config);
-  const tsConfig = convertESLintRulesToTSLintConfig(rules);
-  return {
-    rules: tsConfig.rules,
-  };
+  return convertESLintRulesToTSLintConfig(rules);
 }
 
 function loadESLintConfig(config) {
@@ -28,20 +25,23 @@ function loadESLintConfig(config) {
 }
 
 function convertESLintRulesToTSLintConfig(rules) {
+  const plugins = new Set();
   const tsRules = oEntries(rules)
-    .map(convertESLintRule)
+    .map(convertESLintRule.bind(null, plugins))
     .filter(([name, value]) => name && value)
     .reduce((prev, [name, value]) => {
       prev[name] = value;
       return prev;
     }, {});
 
-  return {
-    rules: tsRules,
-  };
+  const config = {rules: tsRules};
+  if (plugins.size > 0) {
+    config.extends = [...plugins.values()];
+  }
+  return config;
 }
 
-function convertESLintRule([name, value]) {
+function convertESLintRule(plugins, [name, value]) {
   let severity = value;
   let options = [];
   if (Array.isArray(value)) {
@@ -59,8 +59,18 @@ function convertESLintRule([name, value]) {
   }
 
   const ruleInfo = ruleESMap[camelcase(name)];
-  if (!ruleInfo || ruleInfo.provider !== 'native') {
+  if (!ruleInfo) {
     return [null, null];
+  }
+
+  switch (ruleInfo.provider) {
+    case 'native':
+      break;
+    case 'tslint-eslint-rules':
+      plugins.add('tslint-eslint-rules');
+      break;
+    default:
+      return [null, null];
   }
 
   const setting = {severity};
