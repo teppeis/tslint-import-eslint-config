@@ -30,7 +30,6 @@ function convertESLintRulesToTSLintConfig(rules) {
   oEntries(rules).forEach(([name, value]) => {
     convertESLintRule({
       plugins,
-      esRules: rules,
       tsRules,
       name,
       value,
@@ -44,7 +43,7 @@ function convertESLintRulesToTSLintConfig(rules) {
   return config;
 }
 
-function convertESLintRule({plugins, esRules, tsRules, name, value}) {
+function convertESLintRule({plugins, tsRules, name, value}) {
   let severity = value;
   let options = [];
   if (Array.isArray(value)) {
@@ -80,7 +79,7 @@ function convertESLintRule({plugins, esRules, tsRules, name, value}) {
   }
 
   const setting = {severity};
-  const newOptions = convertOptions(name, options, ruleInfo);
+  const newOptions = convertOptions({name, options, ruleInfo, tsRules});
   if (newOptions === convertOptions.DISABLE) {
     return;
   } else if (newOptions && (!Array.isArray(newOptions) || newOptions.length > 0)) {

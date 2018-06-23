@@ -77,13 +77,51 @@ describe('rules', () => {
     });
   });
 
-  describe.skip('no-unused-expressions and no-new', () => {
+  describe('no-unused-expressions and no-new', () => {
     it('no option', () => {
       const actual = convert({'no-unused-expressions': 'error', 'no-new': 'error'});
       assert.deepEqual(actual, {
         rules: {
           'no-unused-expression': {
             severity: 'error',
+          },
+        },
+      });
+    });
+    it('no option, inverse', () => {
+      const actual = convert({'no-new': 'error', 'no-unused-expressions': 'error'});
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-expression': {
+            severity: 'error',
+          },
+        },
+      });
+    });
+    it('allowTernary', () => {
+      const actual = convert({
+        'no-unused-expressions': ['error', {allowTernary: true}],
+        'no-new': 'error',
+      });
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-expression': {
+            severity: 'error',
+            options: ['allow-fast-null-checks'],
+          },
+        },
+      });
+    });
+    it('allowTernary, inverse', () => {
+      const actual = convert({
+        'no-new': 'error',
+        'no-unused-expressions': ['error', {allowTernary: true}],
+      });
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-expression': {
+            severity: 'error',
+            options: ['allow-fast-null-checks'],
           },
         },
       });
