@@ -151,7 +151,7 @@ rules['no-unused-vars'] = options => {
  * @see https://palantir.github.io/tslint/rules/no-empty/
  */
 rules['no-empty'] = options => {
-  const result = [];
+  const result = ['allow-empty-functions'];
   if (!options[0]) {
     return result;
   }
@@ -164,8 +164,19 @@ rules['no-empty'] = options => {
 };
 
 /**
+ * Disabled to prioritize `no-empty`
+ * TODO: enable both
+ *
  * @param {!Array<*>} options
- * @return {string|null}
+ * @return {symbol}
+ * @see https://eslint.org/docs/rules/no-empty-function
+ * @see https://palantir.github.io/tslint/rules/no-empty/
+ */
+rules['no-empty-function'] = options => DISABLE;
+
+/**
+ * @param {!Array<*>} options
+ * @return {string|symbol}
  * @see https://eslint.org/docs/rules/object-shorthand
  * @see https://palantir.github.io/tslint/rules/object-literal-shorthand/
  */

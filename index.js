@@ -49,6 +49,12 @@ function convertESLintRule({plugins, tsRules, name, value}) {
   if (Array.isArray(value)) {
     [severity, ...options] = value;
   }
+  let useTslintEslintRules = false;
+
+  const ruleInfo = ruleESMap[camelcase(name)];
+  if (!ruleInfo) {
+    return;
+  }
 
   if (severity === 'off' || severity === 0) {
     return;
@@ -60,11 +66,6 @@ function convertESLintRule({plugins, tsRules, name, value}) {
     throw new Error(`invalid rule setting: ${name}, ${value}`);
   }
 
-  const ruleInfo = ruleESMap[camelcase(name)];
-  if (!ruleInfo) {
-    return;
-  }
-
   switch (ruleInfo.provider) {
     case 'native':
       break;
@@ -72,7 +73,7 @@ function convertESLintRule({plugins, tsRules, name, value}) {
       if (!ruleInfo.available) {
         return;
       }
-      plugins.add('tslint-eslint-rules');
+      useTslintEslintRules = true;
       break;
     default:
       return;
@@ -86,6 +87,9 @@ function convertESLintRule({plugins, tsRules, name, value}) {
     setting.options = newOptions;
   }
 
+  if (useTslintEslintRules) {
+    plugins.add('tslint-eslint-rules');
+  }
   tsRules[ruleInfo.tslintRule] = setting;
 }
 
