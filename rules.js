@@ -38,7 +38,7 @@ rules['no-redeclare'] = () => 'check-parameters';
  */
 rules['no-unused-expressions'] = options => {
   const opt = options[0];
-  const result = [];
+  const result = ['allow-new'];
   if (!opt) {
     return result;
   }
@@ -50,6 +50,16 @@ rules['no-unused-expressions'] = options => {
   }
   return result;
 };
+
+/**
+ * TODO: `allow-new` is mapped from `no-new`
+ *
+ * @param {!Array<*>} options
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-new
+ * @see https://palantir.github.io/tslint/rules/no-unused-expression/
+ */
+rules['no-new'] = options => ['allow-fast-null-checks', 'allow-tagged-template'];
 
 /**
  * @param {!Array<*>} options

@@ -23,6 +23,7 @@ describe('rules', () => {
         rules: {
           'no-unused-expression': {
             severity: 'error',
+            options: ['allow-new'],
           },
         },
       });
@@ -33,7 +34,7 @@ describe('rules', () => {
         rules: {
           'no-unused-expression': {
             severity: 'error',
-            options: ['allow-fast-null-checks'],
+            options: ['allow-new', 'allow-fast-null-checks'],
           },
         },
       });
@@ -44,7 +45,7 @@ describe('rules', () => {
         rules: {
           'no-unused-expression': {
             severity: 'error',
-            options: ['allow-fast-null-checks'],
+            options: ['allow-new', 'allow-fast-null-checks'],
           },
         },
       });
@@ -55,7 +56,34 @@ describe('rules', () => {
         rules: {
           'no-unused-expression': {
             severity: 'error',
-            options: ['allow-tagged-template'],
+            options: ['allow-new', 'allow-tagged-template'],
+          },
+        },
+      });
+    });
+  });
+
+  describe('no-new', () => {
+    it('no option', () => {
+      const actual = convert({'no-new': 'error'});
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-expression': {
+            severity: 'error',
+            options: ['allow-fast-null-checks', 'allow-tagged-template'],
+          },
+        },
+      });
+    });
+  });
+
+  describe.skip('no-unused-expressions and no-new', () => {
+    it('no option', () => {
+      const actual = convert({'no-unused-expressions': 'error', 'no-new': 'error'});
+      assert.deepEqual(actual, {
+        rules: {
+          'no-unused-expression': {
+            severity: 'error',
           },
         },
       });
