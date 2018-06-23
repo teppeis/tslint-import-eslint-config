@@ -26,13 +26,15 @@ function loadESLintConfig(config) {
 
 function convertESLintRulesToTSLintConfig(rules) {
   const plugins = new Set();
-  const tsRules = oEntries(rules)
-    .map(convertESLintRule.bind(null, plugins))
-    .filter(([name, value]) => name && value)
-    .reduce((prev, [name, value]) => {
-      prev[name] = value;
-      return prev;
-    }, {});
+  const tsRules = {};
+  oEntries(rules).forEach(([name, value]) => {
+    convertESLintRule({
+      plugins,
+      tsRules,
+      name,
+      value,
+    });
+  });
 
   const config = {rules: tsRules};
   if (plugins.size > 0) {
@@ -41,7 +43,7 @@ function convertESLintRulesToTSLintConfig(rules) {
   return config;
 }
 
-function convertESLintRule(plugins, [name, value]) {
+function convertESLintRule({plugins, tsRules, name, value}) {
   let severity = value;
   let options = [];
   if (Array.isArray(value)) {
@@ -49,7 +51,7 @@ function convertESLintRule(plugins, [name, value]) {
   }
 
   if (severity === 'off' || severity === 0) {
-    return [null, null];
+    return;
   } else if (severity === 'warn' || severity === 1) {
     severity = 'warning';
   } else if (severity === 'error' || severity === 2) {
@@ -60,7 +62,7 @@ function convertESLintRule(plugins, [name, value]) {
 
   const ruleInfo = ruleESMap[camelcase(name)];
   if (!ruleInfo) {
-    return [null, null];
+    return;
   }
 
   switch (ruleInfo.provider) {
@@ -68,23 +70,23 @@ function convertESLintRule(plugins, [name, value]) {
       break;
     case 'tslint-eslint-rules':
       if (!ruleInfo.available) {
-        return [null, null];
+        return;
       }
       plugins.add('tslint-eslint-rules');
       break;
     default:
-      return [null, null];
+      return;
   }
 
   const setting = {severity};
-  const newOptions = convertOptions(name, options, ruleInfo);
+  const newOptions = convertOptions({name, options, ruleInfo, tsRules});
   if (newOptions === convertOptions.DISABLE) {
-    return [null, null];
+    return;
   } else if (newOptions && (!Array.isArray(newOptions) || newOptions.length > 0)) {
     setting.options = newOptions;
   }
 
-  return [ruleInfo.tslintRule, setting];
+  tsRules[ruleInfo.tslintRule] = setting;
 }
 
 module.exports = importESLintConfig;

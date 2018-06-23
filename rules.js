@@ -2,13 +2,13 @@
 
 const deepEqual = require('deep-strict-equal');
 
-module.exports = (name, options, ruleInfo) => {
+module.exports = ({name, options, ruleInfo, tsRules}) => {
   if (ruleInfo.provider === 'tslint-eslint-rules') {
     return options;
   }
   const rule = rules[name];
   if (rule) {
-    return rule(options);
+    return rule(options, ruleInfo, tsRules);
   }
   return null;
 };
@@ -32,13 +32,24 @@ rules['no-redeclare'] = () => 'check-parameters';
  * TODO: `allow-new` is mapped from `no-new`
  *
  * @param {!Array<*>} options
+ * @param {!Object} ruleInfo
+ * @param {!Object} tsRules
  * @return {!Array<string>}
  * @see https://eslint.org/docs/rules/no-unused-expressions
  * @see https://palantir.github.io/tslint/rules/no-unused-expression/
  */
-rules['no-unused-expressions'] = options => {
+rules['no-unused-expressions'] = (options, ruleInfo, tsRules) => {
   const opt = options[0];
-  const result = [];
+  const currentSetting = tsRules[ruleInfo.tslintRule];
+  let result;
+  if (currentSetting && currentSetting.options) {
+    const currentOption = new Set(currentSetting.options);
+    currentOption.delete('allow-fast-null-checks');
+    currentOption.delete('allow-tagged-template');
+    result = Array.from(currentOption.values());
+  } else {
+    result = ['allow-new'];
+  }
   if (!opt) {
     return result;
   }
@@ -47,6 +58,29 @@ rules['no-unused-expressions'] = options => {
   }
   if (opt.allowTaggedTemplates) {
     result.push('allow-tagged-template');
+  }
+  return result;
+};
+
+/**
+ * TODO: `allow-new` is mapped from `no-new`
+ *
+ * @param {!Array<*>} options
+ * @param {!Object} ruleInfo
+ * @param {!Object} tsRules
+ * @return {!Array<string>}
+ * @see https://eslint.org/docs/rules/no-new
+ * @see https://palantir.github.io/tslint/rules/no-unused-expression/
+ */
+rules['no-new'] = (options, ruleInfo, tsRules) => {
+  const currentSetting = tsRules[ruleInfo.tslintRule];
+  let result;
+  if (currentSetting && currentSetting.options) {
+    const currentOption = new Set(currentSetting.options);
+    currentOption.delete('allow-new');
+    result = Array.from(currentOption.values());
+  } else {
+    result = ['allow-fast-null-checks', 'allow-tagged-template'];
   }
   return result;
 };
