@@ -194,13 +194,24 @@ describe('rules', () => {
     it('no option', () => {
       const actual = convert({'no-empty': 'error'});
       assert.deepEqual(actual, {
-        rules: {'no-empty': {severity: 'error'}},
+        rules: {'no-empty': {severity: 'error', options: ['allow-empty-functions']}},
       });
     });
     it('allowEmptyCatch', () => {
       const actual = convert({'no-empty': ['error', {allowEmptyCatch: true}]});
       assert.deepEqual(actual, {
-        rules: {'no-empty': {severity: 'error', options: ['allow-empty-catch']}},
+        rules: {
+          'no-empty': {severity: 'error', options: ['allow-empty-functions', 'allow-empty-catch']},
+        },
+      });
+    });
+  });
+
+  describe('no-empty-function', () => {
+    it('no option', () => {
+      const actual = convert({'no-empty-function': 'error'});
+      assert.deepEqual(actual, {
+        rules: {},
       });
     });
   });
