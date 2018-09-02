@@ -18,7 +18,7 @@
     "deep-strict-equal": "^0.2.0",
     "eslint": "^5.3.0",
     "object.entries": "^1.0.4",
-    "tslint-eslint-rules": "5.3.1"
+    "tslint-eslint-rules": "5.4.0"
   },
   "devDependencies": {
     "eslint-config-teppeis": "^8.2.0",
