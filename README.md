@@ -14,7 +14,7 @@ The rule mappings between ESLint and TSLint are provided by [tslint-eslint-rules
 ## Setup
 
 ```console
-$ npm i tslint-import-eslint-config
+$ npm i -D tslint-import-eslint-config
 ```
 
 Edit your `tslint.js`
