@@ -16,7 +16,7 @@
   "dependencies": {
     "camelcase": "^5.0.0",
     "deep-strict-equal": "^0.2.0",
-    "eslint": "^5.6.0",
+    "eslint": "^5.6.1",
     "object.entries": "^1.0.4",
     "tslint-eslint-rules": "5.3.1"
   },
