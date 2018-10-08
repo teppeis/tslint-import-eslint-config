@@ -1,7 +1,7 @@
 {
   "name": "tslint-import-eslint-config",
   "description": "Import your ESLint config into TSLint",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Teppei Sato <teppeis@gmail.com>",
   "main": "index.js",
   "files": [
