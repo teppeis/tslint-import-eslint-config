@@ -14,11 +14,11 @@
     "test:unit": "mocha --require intelli-espower-loader"
   },
   "dependencies": {
+    "@teppeis/tslint-eslint-rules": "^5.4.0",
     "camelcase": "^5.0.0",
     "deep-strict-equal": "^0.2.0",
     "eslint": "^5.6.1",
-    "object.entries": "^1.0.4",
-    "tslint-eslint-rules": "5.3.1"
+    "object.entries": "^1.0.4"
   },
   "devDependencies": {
     "eslint-config-teppeis": "^8.3.0",
