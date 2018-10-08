@@ -4,7 +4,7 @@ const {Linter} = require('eslint');
 const Config = require('eslint/lib/config');
 const {loadObject} = require('eslint/lib/config/config-file');
 const oEntries = require('object.entries');
-const {ruleESMap} = require('tslint-eslint-rules/dist/readme/rules');
+const {ruleESMap} = require('@teppeis/tslint-eslint-rules/dist/readme/rules');
 const camelcase = require('camelcase');
 const convertOptions = require('./rules');
 
