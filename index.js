@@ -88,7 +88,7 @@ function convertESLintRule({plugins, tsRules, name, value}) {
   }
 
   if (useTslintEslintRules) {
-    plugins.add('tslint-eslint-rules');
+    plugins.add('@teppeis/tslint-eslint-rules');
   }
   tsRules[ruleInfo.tslintRule] = setting;
 }
