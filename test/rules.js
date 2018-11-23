@@ -220,14 +220,14 @@ describe('rules', () => {
     it('no option', () => {
       const actual = convert({'no-constant-condition': 'error'});
       assert.deepEqual(actual, {
-        extends: ['tslint-eslint-rules'],
+        extends: ['@teppeis/tslint-eslint-rules'],
         rules: {'no-constant-condition': {severity: 'error'}},
       });
     });
     it('{checkLoops: false}', () => {
       const actual = convert({'no-constant-condition': ['error', {checkLoops: false}]});
       assert.deepEqual(actual, {
-        extends: ['tslint-eslint-rules'],
+        extends: ['@teppeis/tslint-eslint-rules'],
         rules: {'no-constant-condition': {severity: 'error', options: [{checkLoops: false}]}},
       });
     });
