@@ -1,3 +1,6 @@
+## Deprecated: use [@typescript-eslint](https://github.com/typescript-eslint/typescript-eslint)
+
+----
 tslint-import-eslint-config
 ====
 
