@@ -18,7 +18,7 @@
     "camelcase": "^5.0.0",
     "deep-strict-equal": "^0.2.0",
     "eslint": "^5.13.0",
-    "object.entries": "^1.0.4"
+    "object.entries": "^1.1.0"
   },
   "devDependencies": {
     "eslint-config-teppeis": "^8.3.1",
