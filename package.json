@@ -17,7 +17,7 @@
     "@teppeis/tslint-eslint-rules": "^5.4.0",
     "camelcase": "^5.0.0",
     "deep-strict-equal": "^0.2.0",
-    "eslint": "^5.13.0",
+    "eslint": "^5.16.0",
     "object.entries": "^1.0.4"
   },
   "devDependencies": {
@@ -26,7 +26,7 @@
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.5",
     "power-assert": "^1.6.1",
-    "prettier": "1.16.4"
+    "prettier": "1.17.1"
   },
   "homepage": "https://github.com/teppeis/tslint-import-eslint-config",
   "repository": "teppeis/tslint-import-eslint-config",
